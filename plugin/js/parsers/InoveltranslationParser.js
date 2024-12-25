@@ -8,17 +8,19 @@ class InoveltranslationParser extends Parser{
     }
 
     async getChapterUrls(dom) {
-        return [...dom.querySelectorAll("section[class^='styles_chapter_list'] div:has(>a):not(:has(> div))")]
-            .map(link => this.linkToChapter(link)).reverse();
-    }
+        let chapters = []
+        let chapterRegex = /\\"href\\":\\"(.+?)\\".*?\\"children\\":\\"(.+?)\\"/gm
+        let text = [...dom.scripts].filter(x => x.text.includes("ChapterList"))[0].text
 
-    linkToChapter(link) {
-        let a = link.querySelector('a');
+        let match;
+        while ((match = chapterRegex.exec(text)) !== null) {
+            chapters.push({
+                sourceUrl: match[1],
+                title: match[2],
+            })
+        }
 
-        return ({
-            sourceUrl: a.href,
-            title: a.textContent,
-        });
+        return chapters.reverse()
     }
 
     findContent(dom) {
