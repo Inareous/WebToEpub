@@ -9,11 +9,11 @@ class InoveltranslationParser extends Parser{
 
     async getChapterUrls(dom) {
         return [...dom.querySelectorAll("section[class^='styles_chapter_list'] div:has(>a):not(:has(> div))")]
-            .map(link => this.linkToChapter(link)).reverse()
+            .map(link => this.linkToChapter(link)).reverse();
     }
-    
+
     linkToChapter(link) {
-        let a = link.querySelector('a')
+        let a = link.querySelector('a');
 
         return ({
             sourceUrl: a.href,
@@ -22,7 +22,7 @@ class InoveltranslationParser extends Parser{
     }
 
     findContent(dom) {
-        return dom.querySelector("section[data-sentry-component='RichText']")
+        return dom.querySelector("section[data-sentry-component='RichText']");
     }
 
     findChapterTitle(dom) {
