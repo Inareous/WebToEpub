@@ -38,6 +38,6 @@ class InoveltranslationParser extends Parser{
     }
 
     getInformationEpubItemChildNodes(dom) {
-        return [...dom.querySelectorAll("section[class^='styles_details_container']")];
+        return [...dom.querySelectorAll("section[class^='styles_details_container'] dl:last-child")];
     }
 }
