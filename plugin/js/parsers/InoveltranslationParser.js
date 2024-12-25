@@ -9,7 +9,7 @@ class InoveltranslationParser extends Parser{
 
     async getChapterUrls(dom) {
         return [...dom.querySelectorAll("section[class^='styles_chapter_list'] div:has(>a):not(:has(> div))")]
-            .map(link => this.linkToChapter(link))
+            .map(link => this.linkToChapter(link)).reverse()
     }
     
     linkToChapter(link) {
