@@ -8,22 +8,21 @@ class InoveltranslationParser extends Parser{
     }
 
     async getChapterUrls(dom) {
-        return Array.from(dom.querySelectorAll("main > section > div > section > section div:has(>a):not(:has(> div))"))
-             .map(x => { return {title: x.innerText, sourceUrl: x.querySelector("a")?.href} }).reverse();
+        return [...dom.querySelectorAll("section[class^='styles_chapter_list'] div:has(>a):not(:has(> div))")]
+            .map(link => this.linkToChapter(link))
+    }
+    
+    linkToChapter(link) {
+        let a = link.querySelector('a')
+
+        return ({
+            sourceUrl: a.href,
+            title: a.textContent,
+        });
     }
 
     findContent(dom) {
-        const main = dom.querySelector('main');
-
-        if (main) {
-            [...main.children].forEach(child => {
-                if (child.tagName !== 'P') {
-                main.removeChild(child);
-                }
-            });
-        }
-
-        return main
+        return dom.querySelector("section[data-sentry-component='RichText']")
     }
 
     findChapterTitle(dom) {
@@ -36,5 +35,9 @@ class InoveltranslationParser extends Parser{
 
     findCoverImageUrl(dom) {
         return util.getFirstImgSrc(dom, "article");
+    }
+
+    getInformationEpubItemChildNodes(dom) {
+        return [...dom.querySelectorAll("section[class^='styles_details_container']")];
     }
 }
